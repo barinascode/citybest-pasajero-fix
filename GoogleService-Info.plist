@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>575255096477-uem43sg97vila857p45o5rs4j7rov14a.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.575255096477-uem43sg97vila857p45o5rs4j7rov14a</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>575255096477-5tsdnhglno0uccplbvtldpm88j4kclte.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAKgFXi1mC_PLayjeOKtUw9PkYX6PpNJ4o</string>
+	<key>GCM_SENDER_ID</key>
+	<string>575255096477</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>py.citybest.citybestpasajero</string>
+	<key>PROJECT_ID</key>
+	<string>citybcolombiadev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>citybcolombiadev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:575255096477:ios:77fc5a33d4e170184e7874</string>
+	<key>DATABASE_URL</key>
+	<string>https://citybcolombiadev-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

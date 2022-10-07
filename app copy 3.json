@@ -1,0 +1,86 @@
+{
+  "name": "citybest-pasajero-fix",
+  "displayName": "CityBest",
+  "expo": {
+    "name": "CityBest",
+    "slug": "citybest-pasajero-fix",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "userInterfaceStyle": "light",
+    "orientation": "portrait",
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_ERROR_RECOVERY",
+      "fallbackToCacheTimeout": 30000
+    },
+    "scheme": "citybest.citybest",
+    "icon": "./src/assets/img/launcher.png",
+    "version": "2.0.0",
+    "splash": {
+      "resizeMode": "cover",
+      "image": "./src/assets/img/splash_2.png",
+      "backgroundColor": "#441A7B"
+    },
+    "android": {
+      "package": "py.citybest.citybestpasajero",
+      "userInterfaceStyle": "automatic",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "LOCATION",
+        "NOTIFICATIONS",
+        "CAMERA",
+        "MEDIA_LIBRARY",
+        "MEDIA_LIBRARY_WRITE_ONLY"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAJ804DEmgW3CrcmcD9GYxcp1yEGOF1QaM"
+        }
+      },
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 20
+    },
+    "ios": {
+      "userInterfaceStyle": "automatic",
+      "icon": "./src/assets/img/launcher-ios.png",
+      "bundleIdentifier": "com.citybest.citybest",
+      "config": {
+        "googleMapsApiKey": "AIzaSyAJ804DEmgW3CrcmcD9GYxcp1yEGOF1QaM",
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.353588699619-ldfqalveg6e737v3idondqcfi6d04dt8"
+        }
+      },
+      "supportsTablet": false,
+      "infoPlist": {
+        "UIUserInterfaceStyle": "Light",
+        "permissions": [
+          "ACCESS_FINE_LOCATION",
+          "ACCESS_COARSE_LOCATION",
+          "LOCATION",
+          "NOTIFICATIONS",
+          "CAMERA",
+          "MEDIA_LIBRARY",
+          "MEDIA_LIBRARY_WRITE_ONLY"
+        ],
+        "NSLocationWhenInUseUsageDescription": "Citybest necesita acceder a tu GPS para obtener tu ubicación y encontrar conductores cercanos a ti",
+        "NSCameraUsageDescription": "Necesitamos el acceso a la cámara para que puedas enviar archivos en la app",
+        "NSPhotoLibraryAddUsageDescription": "Necesitamos el acceso a la galeria para que puedas enviar archivos en la app",
+        "NSPhotoLibraryUsageDescription": "Necesitamos el acceso a la galeria para que puedas enviar archivos en la app",
+        "NSUserTrackingUsageDescription": "Permitir a Citybest enviar la siguiente información para compartirla con otros proveedores por propositos de publicidad y detección de bugs y comportamiento de la app en tu dispositivo: Email, Nombres, Teléfono, Ubicación, Id de dispositivo"
+      },
+      "buildNumber": "11",
+      "googleServicesFile": "./GoogleService-Info.plist"
+    },
+    "facebookAppId": "517361416052459",
+    "facebookDisplayName": "Citybest",
+    "facebookScheme": "fb517361416052459",
+    "plugins": [],
+    "extra": {
+      "eas": {
+        "projectId": "71b8562b-3a2a-4d38-a0ef-15def35dc323"
+      }
+    }
+  }
+}

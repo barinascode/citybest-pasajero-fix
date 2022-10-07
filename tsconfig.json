@@ -1,0 +1,21 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+      "experimentalDecorators": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "jsx": "react",
+      "strict": true,
+      "baseUrl": "./src",
+      "paths": {
+          "@modules/*": ["./modules/*"],
+          "@shared/*": ["./modules/_shared/*"],
+          "@main-components/*": ["./main-components/*"],
+          "@navigation/*": ["./navigation/*"],
+          "@utils/*": ["./modules/shared/domain/utils/*"],
+          "@images/*": ["./modules/shared/constants/images/*"],
+          "@assets/*": ["./assets/*"],
+          "@config": ["../config.ts"]
+      }
+  }
+}

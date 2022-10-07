@@ -1,0 +1,54 @@
+{
+    "build": {
+        "production": {
+            "android": {
+                "buildType": "apk"
+            },
+            "releaseChannel": "prod1",
+            "ios": {
+                "enterpriseProvisioning": "universal"
+            }
+        },
+        "test": {
+            "android": {
+                "buildType": "apk"
+            },
+            "releaseChannel": "development",
+            "ios": {
+                "enterpriseProvisioning": "universal"
+            }
+        },
+        "stage": {
+            "android": {
+                "buildType": "apk"
+            },
+            "releaseChannel": "stage",
+            "ios": {
+                "enterpriseProvisioning": "universal"
+            }
+        },
+        "stage2": {
+            "android": {
+                "buildType": "apk"
+            },
+            "releaseChannel": "stage2",
+            "ios": {
+                "enterpriseProvisioning": "universal"
+            }
+        }
+    },
+    "submit": {
+        "production": {
+            "android": {},
+            "ios": {
+                "appleId": "citybestapp.com@gmail.com",
+                "ascAppId": "1595603632",
+                "appleTeamId": "LBZ3WUVWV4"
+            }
+        }
+    },
+    "cli": {
+        "version": ">= 0.36.1",
+        "requireCommit": true
+    }
+}

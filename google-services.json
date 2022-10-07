@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "575255096477",
+    "firebase_url": "https://citybcolombiadev-default-rtdb.firebaseio.com",
+    "project_id": "citybcolombiadev",
+    "storage_bucket": "citybcolombiadev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575255096477:android:36ddcf3e0b6101654e7874",
+        "android_client_info": {
+          "package_name": "py.citybest.citybestpasajero"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575255096477-1mfsjiughpaha3373mano884r0akq7pp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "py.citybest.citybestpasajero",
+            "certificate_hash": "95e8f516085757980e9f651c9e5bddbf77df1c81"
+          }
+        },
+        {
+          "client_id": "575255096477-5tsdnhglno0uccplbvtldpm88j4kclte.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "py.citybest.citybestpasajero",
+            "certificate_hash": "ef4f990168b72f7b8190fc1ba166e24d2d7c36f7"
+          }
+        },
+        {
+          "client_id": "575255096477-3dmftv0e0omah3a5dv1451p37v5o9qu5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzWuo15fDSxp8zf8g6v25LI6vgT2Ck86w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575255096477-3dmftv0e0omah3a5dv1451p37v5o9qu5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "575255096477-b4a391e87coqo5lsraosb5a28dkbnjai.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.driverdevcolombia.citybest.co"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575255096477:android:0ef5a077e1e1305f4e7874",
+        "android_client_info": {
+          "package_name": "com.driverdevcolombia.citybest.co"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575255096477-gma1a4p7qilba4jska561frk9i1mfhnr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.driverdevcolombia.citybest.co",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "575255096477-3dmftv0e0omah3a5dv1451p37v5o9qu5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzWuo15fDSxp8zf8g6v25LI6vgT2Ck86w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575255096477-3dmftv0e0omah3a5dv1451p37v5o9qu5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "575255096477-b4a391e87coqo5lsraosb5a28dkbnjai.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.driverdevcolombia.citybest.co"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

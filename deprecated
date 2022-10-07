@@ -1,0 +1,15 @@
+Identificadas dependencias rotas y deprecadas
+
+"react-native-unimodules": "0.14.10"
+"expo-google-app-auth": "~8.3.0"
+"expo-google-sign-in": "~9.2.1"
+"react-native-appearance": "~0.3.3"
+react-native-indicator
+
+Comentadas funcionalidades inicio 
+de sesion con google y 
+facebook deprecadas
+
+
+grep -R "propTypes.style" *
+grep -R "propTypes." *
