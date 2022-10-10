@@ -52,12 +52,10 @@ import { getTravelState } from 'integration/modules/Travel/store/travel.slice';
 
 export default function Dashboard(props: any) {
     return (
-        <AnimatedStartup>
-            <Box backgroundColor="white" flex={1}>
+        
                 <DashboardContext>
-                    <MainScreen>
+                    
                         <StatusBar translucent />
-
                         
                         <TravelProvider>
                             <MainMap />
@@ -83,13 +81,14 @@ export default function Dashboard(props: any) {
                                 props.navigation.openDrawer();
                             }}
                         />
+                        
                         <OptionsBottomSheet />
 
-                        {/* <RequestNewRouteModal visible onClose={() => {}} /> */}
-                    </MainScreen>
+                      
+                 
                 </DashboardContext>
-            </Box>
-        </AnimatedStartup>
+           
+           
     );
 }
 

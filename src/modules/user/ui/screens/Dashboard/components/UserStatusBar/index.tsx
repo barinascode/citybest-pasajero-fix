@@ -9,6 +9,7 @@ import images from '@modules/_shared/domain/utils/constants/images';
 import useDimensions from '@modules/_shared/domain/utils/hooks/useDimensions';
 import { getProfileState } from 'integration/modules/Profile/store/profile.slice';
 import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -239,11 +240,23 @@ export function AnimatedUserStatusBar(props: UserStatusBarProps) {
 }
 
 export function UserStatusBarController() {
+    
     const { data: address, loading } = useGetCurrentPositionAddress();
 
     const { data: user } = useGetProfile();
 
-    if (!address || loading) return <Box />;
+    if (!address || loading) return <View style={{
+     
+        height : 200,
+        width : '100%',
+        backgroundColor : 'red',
+        position : 'absolute',
+        top : 10,
+        justifyContent : 'center',
+        alignItems : 'center'
+    }}>
+        <Text>No muestro nada</Text>
+    </View>;
 
     return (
         <AnimatedUserStatusBar

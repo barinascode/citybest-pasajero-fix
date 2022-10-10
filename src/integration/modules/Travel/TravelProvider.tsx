@@ -264,8 +264,8 @@ const TravelProvider = (props: any) => {
     
                 
 
-            // }, 5000);
-        }, 300);
+            }, 5000);
+        // }, 300);
 
             return () => {
                 clearInterval(timer);
