@@ -9,7 +9,7 @@ import images from '@modules/_shared/domain/utils/constants/images';
 import useDimensions from '@modules/_shared/domain/utils/hooks/useDimensions';
 import { getProfileState } from 'integration/modules/Profile/store/profile.slice';
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, Text as Text2 } from 'react-native';
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -245,8 +245,32 @@ export function UserStatusBarController() {
 
     const { data: user } = useGetProfile();
 
+    
+    
+    return <View style={{
+        height : 600,
+        width : '100%',
+        backgroundColor : 'red',
+        position : 'absolute',
+        top : 10,
+        justifyContent : 'center',
+        alignItems : 'center'
+    }}>
+      
+        <Text2 style={{ fontSize : 9, color : 'white' }}>{
+            JSON.stringify(loading)
+        }</Text2>
+
+        <Text2 style={{ fontSize : 9, color : 'white' }}>{
+            JSON.stringify(address)
+        }</Text2>
+
+
+
+    </View>;
+
+    
     if (!address || loading) return <View style={{
-     
         height : 200,
         width : '100%',
         backgroundColor : 'red',
@@ -255,7 +279,17 @@ export function UserStatusBarController() {
         justifyContent : 'center',
         alignItems : 'center'
     }}>
-        <Text>No muestro nada</Text>
+      
+        <Text2 style={{ fontSize : 9, color : 'white' }}>{
+            JSON.stringify(loading)
+        }</Text2>
+
+        <Text2 style={{ fontSize : 9, color : 'white' }}>{
+            JSON.stringify(address)
+        }</Text2>
+
+
+
     </View>;
 
     return (

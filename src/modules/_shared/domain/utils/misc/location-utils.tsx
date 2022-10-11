@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import * as Location from 'expo-location';
 import GeoPoint from '../../models/geo-point';
 import LocationAddress from '../../models/location-address';
@@ -15,7 +16,9 @@ const LocationUtils = {
 
 
     async getCurrentPosition(): Promise<GeoPoint> {
+
         const MAX_ATTEMPTS = 50;
+
         let { status } =
             await LocationUtils.requestForegroundPermissionsAsync();
 
@@ -86,6 +89,7 @@ const LocationUtils = {
             };
         }
     },
+
     async getPositionAddress(position: GeoPoint) {
         let { status } =
             await LocationUtils.requestForegroundPermissionsAsync();
@@ -95,6 +99,14 @@ const LocationUtils = {
         }
 
         let data = await Location.reverseGeocodeAsync(position);
+
+        axios.post('http://192.168.1.12:3008',{
+            body: JSON.stringify({
+                'hook': 'getPositionAddress',
+                data,
+                position
+            })
+        });
 
         if (data.length == 0) {
             throw new Error('NOT_FOUND');
