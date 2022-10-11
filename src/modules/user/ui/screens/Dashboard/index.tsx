@@ -51,6 +51,9 @@ import { useSelector } from 'react-redux';
 import { getTravelState } from 'integration/modules/Travel/store/travel.slice';
 
 export default function Dashboard(props: any) {
+
+    console.log('renderDashboard:')
+
     return (
         
                 <DashboardContext>

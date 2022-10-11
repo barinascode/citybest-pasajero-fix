@@ -32,15 +32,12 @@ export default function useGetCurrentGeoPosition(props?: {
                
                 axios.post('http://192.168.1.12:3008',{
                     body: JSON.stringify({
-                        'hook': 'useGetGeoPointAddress',
+                        'hook': 'useGetCurrentGeoPosition',
                         'notify': 'No fue posible obtener tu ubicación actual',
                         error
                     })
                 });
                 
-
-       
-
                 notify(
                     'No fue posible obtener tu ubicación actual',
                     'warning',

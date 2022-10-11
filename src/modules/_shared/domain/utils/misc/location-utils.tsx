@@ -97,14 +97,21 @@ const LocationUtils = {
         if (status !== 'granted') {
             throw new Error('NOT_GRANTED');
         }
+        
+        axios.post('http://192.168.1.12:3008',{
+            body: JSON.stringify({
+                'hook': 'getPositionAddress',
+                message : '= = = SOLICITANDO : Location.reverseGeocodeAsync = = =',
+            })
+        });
 
         let data = await Location.reverseGeocodeAsync(position);
 
         axios.post('http://192.168.1.12:3008',{
             body: JSON.stringify({
                 'hook': 'getPositionAddress',
-                data,
-                position
+                data: data,
+                position: position
             })
         });
 

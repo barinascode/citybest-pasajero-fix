@@ -34,7 +34,6 @@ export default function useGetGeoPointAddress(
         () => {
 
 
-
             if (!point) {
                 axios.post('http://192.168.1.12:3008',{
                     body: JSON.stringify({
@@ -50,7 +49,7 @@ export default function useGetGeoPointAddress(
 
                 axios.post('http://192.168.1.12:3008',{
                 body: JSON.stringify({
-                    'hook': 'useGetGeoPointAddress',
+                    'hook': 'useGetGeoPointAddress / getPositionAddress / Error',
                     'notify': 'No fue posible obtener información de la ubicación',
                     error
                 })

@@ -7,6 +7,7 @@ import useGetProfile from '@modules/user/application/hooks/use-get-profile';
 import theme from '@modules/_shared/domain/utils/constants/AppTheme';
 import images from '@modules/_shared/domain/utils/constants/images';
 import useDimensions from '@modules/_shared/domain/utils/hooks/useDimensions';
+import axios from 'axios';
 import { getProfileState } from 'integration/modules/Profile/store/profile.slice';
 import React, { useEffect, useState } from 'react';
 import { View, Text as Text2 } from 'react-native';
@@ -241,33 +242,40 @@ export function AnimatedUserStatusBar(props: UserStatusBarProps) {
 
 export function UserStatusBarController() {
     
+    axios.post('http://192.168.1.12:3008',{
+        body: JSON.stringify({
+            'hook': 'UserStatusBarController',
+            message : '= = = SOLICITANDO : useGetCurrentPositionAddress() / useGetProfile() = = =',
+        })
+    })
+
     const { data: address, loading } = useGetCurrentPositionAddress();
 
     const { data: user } = useGetProfile();
 
     
     
-    return <View style={{
-        height : 600,
-        width : '100%',
-        backgroundColor : 'red',
-        position : 'absolute',
-        top : 10,
-        justifyContent : 'center',
-        alignItems : 'center'
-    }}>
+    // return <View style={{
+    //     height : 600,
+    //     width : '100%',
+    //     backgroundColor : 'red',
+    //     position : 'absolute',
+    //     top : 10,
+    //     justifyContent : 'center',
+    //     alignItems : 'center'
+    // }}>
       
-        <Text2 style={{ fontSize : 9, color : 'white' }}>{
-            JSON.stringify(loading)
-        }</Text2>
+    //     <Text2 style={{ fontSize : 9, color : 'white' }}>{
+    //         JSON.stringify(loading)
+    //     }</Text2>
 
-        <Text2 style={{ fontSize : 9, color : 'white' }}>{
-            JSON.stringify(address)
-        }</Text2>
+    //     <Text2 style={{ fontSize : 9, color : 'white' }}>{
+    //         JSON.stringify(address)
+    //     }</Text2>
 
 
 
-    </View>;
+    // </View>;
 
     
     if (!address || loading) return <View style={{
@@ -281,15 +289,12 @@ export function UserStatusBarController() {
     }}>
       
         <Text2 style={{ fontSize : 9, color : 'white' }}>{
-            JSON.stringify(loading)
+            JSON.stringify({
+                loading: loading,
+                address : address
+            })
         }</Text2>
-
-        <Text2 style={{ fontSize : 9, color : 'white' }}>{
-            JSON.stringify(address)
-        }</Text2>
-
-
-
+        
     </View>;
 
     return (

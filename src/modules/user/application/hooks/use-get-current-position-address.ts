@@ -6,7 +6,13 @@ export default function useGetCurrentPositionAddress() {
 
     const { loading, data: position, error } = useGetCurrentGeoPosition();
 
-    // console.log(position)
+   
+    axios.post('http://192.168.1.12:3008',{
+            body: JSON.stringify({
+                'hook': 'useGetCurrentPositionAddress / useGetGeoPointAddress',
+                message : '= = = SOLICITANDO : useGetCurrentPositionAddress / useGetGeoPointAddress() = = =',
+            })
+        })
 
     const { data: address, loading: loadingAddress } = useGetGeoPointAddress(
         position,
@@ -14,7 +20,8 @@ export default function useGetCurrentPositionAddress() {
         'current-geo-address'
     );
 
-    // console.log(address)
+
+    
 
     axios.post('http://192.168.1.12:3008', {
         body: JSON.stringify({
