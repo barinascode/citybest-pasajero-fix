@@ -301,23 +301,33 @@ const getPositionAddress = async (position: GeoPoint):Promise<LocationAddress> =
     try {
         // let { status } = await LocationUtils.requestForegroundPermissionsAsync();
 
-
+    console.log('step 1 : locationToString', position )
     let data = await Location.reverseGeocodeAsync(position);
     
     await axios.post('http://192.168.1.12:3008',{
         body: JSON.stringify({
-            'service': 'transformando coordenadas a direcciones',
-            position: position
+            'service': 'step 1',
+            data: position
         })
     });
-    
-    const  result = await LocationAddress.fromPrimitives({ ...data[0] });
 
     await axios.post('http://192.168.1.12:3008',{
         body: JSON.stringify({
-            'service': 'transformando coordenadas a direcciones resultado :',
-            error: JSON.stringify(result),
-            position: position
+            'service': 'step 2',
+            data: data
+        })
+    });
+    console.log('step 2 : locationToString', data )
+    
+    const  result = await LocationAddress.fromPrimitives({ ...data[0] });
+    
+    console.log('step 3 : locationToString', result )
+
+
+    await axios.post('http://192.168.1.12:3008',{
+        body: JSON.stringify({
+            'service': 'step 3',
+            data: JSON.stringify(result),
         })
     });
 
@@ -374,29 +384,33 @@ export const UserStatusBarController = React.memo(function UserStatusBarControll
         await axios.post('http://192.168.1.12:3008' , {
             body: JSON.stringify({
                 'hook': 'UserStatusBarController',
-                message : '= = = SOLICITANDO : getCurrentPositionCallBack() = = =',
+                message : '= = = SOLICITANDO : 1 = = =',
             })
         })
 
+        console.log('paso 1')
 
         console.log('= = = Enviando log remoto = = =')
         await axios.post('http://192.168.1.12:3008' , {
             body: JSON.stringify({
-                'hook': 'UserStatusBarController',
-                message : '= = = SOLICITANDO : getCurrentPositionCallBack() / getCurrentPosition() = = =',
+                'hook': 'getCurrentPosition',
+                message : '= = = SOLICITANDO : 2 = = =',
             })
         })
+        console.log('paso 2')
         const resultGetCurrentPosition = await getCurrentPosition()
 
+        
+        
         console.log('= = = Enviando log remoto = = =')
         await axios.post('http://192.168.1.12:3008' , {
             body: JSON.stringify({
-                'hook': 'UserStatusBarController',
-                message : '= = = RESPUESTA : getCurrentPositionCallBack() / getCurrentPosition() = = =',
+                'hook': 'getCurrentPosition',
+                message : '= = = RESPUESTA : 3 = = =',
                 response : resultGetCurrentPosition
             })
         })
-
+        console.log('paso 3', resultGetCurrentPosition)
 
         
         
@@ -405,18 +419,23 @@ export const UserStatusBarController = React.memo(function UserStatusBarControll
         console.log('= = = Enviando log remoto = = =')
         await axios.post('http://192.168.1.12:3008' , {
             body: JSON.stringify({
-                'hook': 'UserStatusBarController',
-                message : '= = = SOLICITANDO : getCurrentPositionCallBack() / getPositionAddress() = = =',
+                'hook': 'getPositionAddress',
+                message : '= = = SOLICITANDO : 4 = = =',
             
             })
         })
+        console.log('paso 4')
+      
         const  positionAddress = await getPositionAddress( resultGetCurrentPosition );
-        
+
+
+        console.log('paso 5', positionAddress)
+
         console.log('= = = Enviando log remoto = = =')
         await axios.post('http://192.168.1.12:3008' , {
             body: JSON.stringify({
-                'hook': 'UserStatusBarController',
-                message : '= = = SOLICITANDO : getCurrentPositionCallBack() / getPositionAddress() = = =',
+                'hook': 'getPositionAddress',
+                message : '= = = SOLICITANDO : 5 = = =',
                 response : {
                         street : positionAddress.street,
                         shortAddress : positionAddress.shortAddress
