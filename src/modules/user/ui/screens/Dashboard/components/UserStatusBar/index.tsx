@@ -296,55 +296,76 @@ const getCurrentPosition = async ():Promise<GeoPoint> => {
 
 
 const getPositionAddress = async (position: GeoPoint):Promise<LocationAddress> => {
-    let { status } =
-        await LocationUtils.requestForegroundPermissionsAsync();
-
-    if (status !== 'granted') {
-        throw new Error('NOT_GRANTED');
-    }
+   
     
+    try {
+        // let { status } = await LocationUtils.requestForegroundPermissionsAsync();
 
 
     let data = await Location.reverseGeocodeAsync(position);
-
-    axios.post('http://192.168.1.12:3008',{
+    
+    await axios.post('http://192.168.1.12:3008',{
         body: JSON.stringify({
-            'service': 'getPositionAddress',
-            data: data,
+            'service': 'transformando coordenadas a direcciones',
+            position: position
+        })
+    });
+    
+    const  result = await LocationAddress.fromPrimitives({ ...data[0] });
+
+    await axios.post('http://192.168.1.12:3008',{
+        body: JSON.stringify({
+            'service': 'transformando coordenadas a direcciones resultado :',
+            error: JSON.stringify(result),
             position: position
         })
     });
 
-    if (data.length == 0) {
+        return result
 
+    } catch (error) {
+        console.log(error)
 
+        await axios.post('http://192.168.1.12:3008',{
+            body: JSON.stringify({
+                'service': 'error transformando coordenadas a direcciones',
+                error: JSON.stringify(error),
+                position: position
+            })
+        });
 
-        throw new Error('NOT_FOUND');
+        return new LocationAddress({
+            city: '',
+            district: '',
+            street: '',
+            region: '',
+            subregion: '',
+            country: '',
+            postalCode: '',
+            name: '',
+            isoCountryCode: '',
+            timezone: '',
+        })
     }
 
-    const  result = await LocationAddress.fromPrimitives({
-        ...data[0]
-    });
 
-    return result
 }
 
 export const UserStatusBarController = React.memo(function UserStatusBarController() {
     
-    const [currentPosition, setCurrentPosition] = useState<GeoPoint>({
+    const [currentPosition, setCurrentPosition] = useState<{
+        latitude : number;
+        longitude : number;
+        street : string;
+        shortAddress : string;
+    }>({
         latitude : 0,
         longitude : 0,
-    });
-
-    const [currentAddress, setCurrentAddress] = useState<{
-        street : string,
-        shortAddress : string
-    }>({
         street : '',
         shortAddress : '',
     });
 
-  
+   
     const getCurrentPositionCallBack = useCallback(async ()=>{
 
 
@@ -377,7 +398,7 @@ export const UserStatusBarController = React.memo(function UserStatusBarControll
         })
 
 
-        setCurrentPosition(resultGetCurrentPosition)
+        
         
       
 
@@ -389,7 +410,7 @@ export const UserStatusBarController = React.memo(function UserStatusBarControll
             
             })
         })
-        const { street, shortAddress } = await getPositionAddress( currentPosition );
+        const  positionAddress = await getPositionAddress( resultGetCurrentPosition );
         
         console.log('= = = Enviando log remoto = = =')
         await axios.post('http://192.168.1.12:3008' , {
@@ -397,15 +418,19 @@ export const UserStatusBarController = React.memo(function UserStatusBarControll
                 'hook': 'UserStatusBarController',
                 message : '= = = SOLICITANDO : getCurrentPositionCallBack() / getPositionAddress() = = =',
                 response : {
-                        street,
-                        shortAddress
+                        street : positionAddress.street,
+                        shortAddress : positionAddress.shortAddress
                     }
-                
             })
         })
 
       
-        setCurrentAddress({street, shortAddress})
+        setCurrentPosition({
+            latitude : resultGetCurrentPosition.latitude,
+            longitude : resultGetCurrentPosition.longitude,
+            street : positionAddress.street,
+            shortAddress : positionAddress.shortAddress,
+        })
 
         } catch (error) {
             console.log(error)   
@@ -413,7 +438,7 @@ export const UserStatusBarController = React.memo(function UserStatusBarControll
 
         
 
-    },[setCurrentPosition, setCurrentAddress])
+    },[setCurrentPosition])
 
     useEffect(() => {
         getCurrentPositionCallBack()
@@ -421,50 +446,6 @@ export const UserStatusBarController = React.memo(function UserStatusBarControll
 
 
     const { data: user } = useGetProfile();
-
-    
-    
-    // return <View style={{
-    //     height : 600,
-    //     width : '100%',
-    //     backgroundColor : 'red',
-    //     position : 'absolute',
-    //     top : 10,
-    //     justifyContent : 'center',
-    //     alignItems : 'center'
-    // }}>
-      
-    //     <Text2 style={{ fontSize : 9, color : 'white' }}>{
-    //         JSON.stringify(loading)
-    //     }</Text2>
-
-    //     <Text2 style={{ fontSize : 9, color : 'white' }}>{
-    //         JSON.stringify(address)
-    //     }</Text2>
-
-
-
-    // </View>;
-
-    
-    // if (!address || loading) return <View style={{
-    //     height : 200,
-    //     width : '100%',
-    //     backgroundColor : 'red',
-    //     position : 'absolute',
-    //     top : 10,
-    //     justifyContent : 'center',
-    //     alignItems : 'center'
-    // }}>
-      
-    //     <Text2 style={{ fontSize : 9, color : 'white' }}>{
-    //         JSON.stringify({
-    //             loading: loading,
-    //             address : address
-    //         })
-    //     }</Text2>
-        
-    // </View>;
 
     return (
         <AnimatedUserStatusBar
@@ -474,8 +455,8 @@ export const UserStatusBarController = React.memo(function UserStatusBarControll
                     : images.DEFAULT_PHOTO
             }}
             location={{
-                streetName: currentAddress.street ?? '',
-                address: currentAddress?.shortAddress ?? ''
+                streetName: currentPosition.street ?? '',
+                address: currentPosition?.shortAddress ?? ''
             }}
         />
     );
