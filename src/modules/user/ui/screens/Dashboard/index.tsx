@@ -23,7 +23,7 @@ import HotelesBotonera from 'integration/modules/HotelesBotonera';
 import GoogleMap from 'integration/modules/Map/GoogleMap';
 import { travelActions } from 'integration/modules/Travel/store/travel.slice';
 import TravelProvider from 'integration/modules/Travel/TravelProvider';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Keyboard } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
@@ -54,6 +54,11 @@ export default function Dashboard(props: any) {
 
     console.log('renderDashboard:')
 
+
+    const MemoUserStatusBarController = useCallback( () => {
+            return <UserStatusBarController />
+        },[])
+
     return (
         
                 <DashboardContext>
@@ -65,7 +70,8 @@ export default function Dashboard(props: any) {
                         </TravelProvider>
                     
 
-                        <UserStatusBarController />
+                        <MemoUserStatusBarController />
+                        
                         <SearchOptionsBarController />
                         <UserInternetConection />
 
@@ -483,6 +489,10 @@ function AnimatedLoadingSuggestions({ show }: any) {
 }
 
 function DashboardContext({ children }: any) {
+
+
+    console.log('* * * renderizando DashboardContext * * *')
+
     const [state, dispatch] = React.useReducer(
         (prevState: any, action: any) => {
             switch (action.type) {

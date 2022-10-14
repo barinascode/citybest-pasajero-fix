@@ -14,6 +14,7 @@ type ResponseQueryValue = Omit<UseQueryValue, 'data'> & {
 };
 
 export default function useGetGeoPointAddress(
+
     point?: GeoPoint | null,
     queryOptions: QueryOptions | null,
     key?: string
@@ -35,25 +36,13 @@ export default function useGetGeoPointAddress(
 
 
             if (!point) {
-                axios.post('http://192.168.1.12:3008',{
-                    body: JSON.stringify({
-                        'hook': 'useGetGeoPointAddress',
-                        'notify': 'NOPOINT! ERROR',
-                    })
-                });
+               
+                
 
                 return Promise.resolve()
             };
 
             return location.getPositionAddress(point).catch((error) => {
-
-                axios.post('http://192.168.1.12:3008',{
-                body: JSON.stringify({
-                    'hook': 'useGetGeoPointAddress / getPositionAddress / Error',
-                    'notify': 'No fue posible obtener información de la ubicación',
-                    error
-                })
-            });
 
                 notify(
                     'No fue posible obtener información de la ubicación',

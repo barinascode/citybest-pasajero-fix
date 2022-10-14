@@ -2,21 +2,27 @@ import AppIcon from '@main-components/AppIcon';
 import Box from '@main-components/Box';
 import Image from '@main-components/Image';
 import Text from '@main-components/Text';
-import useGetCurrentPositionAddress from '@modules/user/application/hooks/use-get-current-position-address';
 import useGetProfile from '@modules/user/application/hooks/use-get-profile';
+import GeoPoint from '@modules/_shared/domain/models/geo-point';
 import theme from '@modules/_shared/domain/utils/constants/AppTheme';
 import images from '@modules/_shared/domain/utils/constants/images';
 import useDimensions from '@modules/_shared/domain/utils/hooks/useDimensions';
+import LocationUtils from '@modules/_shared/domain/utils/misc/location-utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { getProfileState } from 'integration/modules/Profile/store/profile.slice';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text as Text2 } from 'react-native';
+
+import * as Location from 'expo-location';
+
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
     withSpring
 } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
+import LocationAddress from '@modules/_shared/domain/models/location-address';
 
 interface UserProfile {
     name?: string;
@@ -240,16 +246,179 @@ export function AnimatedUserStatusBar(props: UserStatusBarProps) {
     );
 }
 
-export function UserStatusBarController() {
+
+
+const getCurrentPosition = async ():Promise<GeoPoint> => {
+
+    const MAX_ATTEMPTS = 50;
+
+    let { status } =
+        await LocationUtils.requestForegroundPermissionsAsync();
+
+    const lastTry: number = parseInt(
+        (await AsyncStorage.getItem('GPS_LOC_TRY')) || '0'
+    );
+
+    let location = { coords: { latitude: 0, longitude: 0 } };
+    try {
+        /*  if (status == 'granted' && lastTry < 2) {
+            throw new Error('NOT_GRANTED');
+        } */
+
+        if (status !== 'granted') {
+            throw new Error('NOT_GRANTED');
+        }
+
+        location = await Location.getCurrentPositionAsync({
+            accuracy: Location.LocationAccuracy.Highest
+        });
+    } catch (error: any) {
+        if (lastTry < MAX_ATTEMPTS) {
+            /*   alert('Try: ' + lastTry); */
+            await AsyncStorage.setItem(
+                'GPS_LOC_TRY',
+                (lastTry + 1).toString()
+            );
+            return LocationUtils.getCurrentPosition();
+        }
+
+        await AsyncStorage.removeItem('GPS_LOC_TRY');
+        throw new Error(error);
+    }
+
+    await AsyncStorage.removeItem('GPS_LOC_TRY');
+
+    return {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude
+    };
+}
+
+
+const getPositionAddress = async (position: GeoPoint):Promise<LocationAddress> => {
+    let { status } =
+        await LocationUtils.requestForegroundPermissionsAsync();
+
+    if (status !== 'granted') {
+        throw new Error('NOT_GRANTED');
+    }
     
+
+
+    let data = await Location.reverseGeocodeAsync(position);
+
     axios.post('http://192.168.1.12:3008',{
         body: JSON.stringify({
-            'hook': 'UserStatusBarController',
-            message : '= = = SOLICITANDO : useGetCurrentPositionAddress() / useGetProfile() = = =',
+            'service': 'getPositionAddress',
+            data: data,
+            position: position
         })
-    })
+    });
 
-    const { data: address, loading } = useGetCurrentPositionAddress();
+    if (data.length == 0) {
+
+
+
+        throw new Error('NOT_FOUND');
+    }
+
+    const  result = await LocationAddress.fromPrimitives({
+        ...data[0]
+    });
+
+    return result
+}
+
+export const UserStatusBarController = React.memo(function UserStatusBarController() {
+    
+    const [currentPosition, setCurrentPosition] = useState<GeoPoint>({
+        latitude : 0,
+        longitude : 0,
+    });
+
+    const [currentAddress, setCurrentAddress] = useState<{
+        street : string,
+        shortAddress : string
+    }>({
+        street : '',
+        shortAddress : '',
+    });
+
+  
+    const getCurrentPositionCallBack = useCallback(async ()=>{
+
+
+        try {
+            console.log('= = = Enviando log remoto = = =')
+        await axios.post('http://192.168.1.12:3008' , {
+            body: JSON.stringify({
+                'hook': 'UserStatusBarController',
+                message : '= = = SOLICITANDO : getCurrentPositionCallBack() = = =',
+            })
+        })
+
+
+        console.log('= = = Enviando log remoto = = =')
+        await axios.post('http://192.168.1.12:3008' , {
+            body: JSON.stringify({
+                'hook': 'UserStatusBarController',
+                message : '= = = SOLICITANDO : getCurrentPositionCallBack() / getCurrentPosition() = = =',
+            })
+        })
+        const resultGetCurrentPosition = await getCurrentPosition()
+
+        console.log('= = = Enviando log remoto = = =')
+        await axios.post('http://192.168.1.12:3008' , {
+            body: JSON.stringify({
+                'hook': 'UserStatusBarController',
+                message : '= = = RESPUESTA : getCurrentPositionCallBack() / getCurrentPosition() = = =',
+                response : resultGetCurrentPosition
+            })
+        })
+
+
+        setCurrentPosition(resultGetCurrentPosition)
+        
+      
+
+        console.log('= = = Enviando log remoto = = =')
+        await axios.post('http://192.168.1.12:3008' , {
+            body: JSON.stringify({
+                'hook': 'UserStatusBarController',
+                message : '= = = SOLICITANDO : getCurrentPositionCallBack() / getPositionAddress() = = =',
+            
+            })
+        })
+        const { street, shortAddress } = await getPositionAddress( currentPosition );
+        
+        console.log('= = = Enviando log remoto = = =')
+        await axios.post('http://192.168.1.12:3008' , {
+            body: JSON.stringify({
+                'hook': 'UserStatusBarController',
+                message : '= = = SOLICITANDO : getCurrentPositionCallBack() / getPositionAddress() = = =',
+                response : {
+                        street,
+                        shortAddress
+                    }
+                
+            })
+        })
+
+      
+        setCurrentAddress({street, shortAddress})
+
+        } catch (error) {
+            console.log(error)   
+        }
+
+        
+
+    },[setCurrentPosition, setCurrentAddress])
+
+    useEffect(() => {
+        getCurrentPositionCallBack()
+    },[])
+
 
     const { data: user } = useGetProfile();
 
@@ -278,24 +447,24 @@ export function UserStatusBarController() {
     // </View>;
 
     
-    if (!address || loading) return <View style={{
-        height : 200,
-        width : '100%',
-        backgroundColor : 'red',
-        position : 'absolute',
-        top : 10,
-        justifyContent : 'center',
-        alignItems : 'center'
-    }}>
+    // if (!address || loading) return <View style={{
+    //     height : 200,
+    //     width : '100%',
+    //     backgroundColor : 'red',
+    //     position : 'absolute',
+    //     top : 10,
+    //     justifyContent : 'center',
+    //     alignItems : 'center'
+    // }}>
       
-        <Text2 style={{ fontSize : 9, color : 'white' }}>{
-            JSON.stringify({
-                loading: loading,
-                address : address
-            })
-        }</Text2>
+    //     <Text2 style={{ fontSize : 9, color : 'white' }}>{
+    //         JSON.stringify({
+    //             loading: loading,
+    //             address : address
+    //         })
+    //     }</Text2>
         
-    </View>;
+    // </View>;
 
     return (
         <AnimatedUserStatusBar
@@ -305,9 +474,9 @@ export function UserStatusBarController() {
                     : images.DEFAULT_PHOTO
             }}
             location={{
-                streetName: address?.street ?? '',
-                address: address?.shortAddress ?? ''
+                streetName: currentAddress.street ?? '',
+                address: currentAddress?.shortAddress ?? ''
             }}
         />
     );
-}
+})
