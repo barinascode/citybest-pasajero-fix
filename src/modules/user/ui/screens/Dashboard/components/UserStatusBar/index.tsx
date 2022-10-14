@@ -13,6 +13,8 @@ import axios from 'axios';
 import { getProfileState } from 'integration/modules/Profile/store/profile.slice';
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text as Text2 } from 'react-native';
+import { GOOGLE_MAPS_KEY } from '@env';
+
 
 import * as Location from 'expo-location';
 
@@ -301,6 +303,9 @@ const getPositionAddress = async (position: GeoPoint):Promise<LocationAddress> =
     try {
         // let { status } = await LocationUtils.requestForegroundPermissionsAsync();
 
+
+    Location.setGoogleApiKey(GOOGLE_MAPS_KEY);
+
     console.log('step 1 : locationToString', position )
     let data = await Location.reverseGeocodeAsync(position);
     
@@ -320,7 +325,7 @@ const getPositionAddress = async (position: GeoPoint):Promise<LocationAddress> =
     console.log('step 2 : locationToString', data )
     
     const  result = await LocationAddress.fromPrimitives({ ...data[0] });
-    
+
     console.log('step 3 : locationToString', result )
 
 
