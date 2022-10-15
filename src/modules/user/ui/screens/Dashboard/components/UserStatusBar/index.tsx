@@ -274,7 +274,19 @@ const getCurrentPosition = async ():Promise<GeoPoint> => {
         location = await Location.getCurrentPositionAsync({
             accuracy: Location.LocationAccuracy.Highest
         });
+
     } catch (error: any) {
+
+
+        await axios.post('http://192.168.1.12:3008' , {
+            body: JSON.stringify({
+                'message': 'getCurrentPosition::Error',
+                response : JSON.stringify(error)
+            })
+        })
+        console.log('getCurrentPosition::Error', JSON.stringify(error))
+
+
         if (lastTry < MAX_ATTEMPTS) {
             /*   alert('Try: ' + lastTry); */
             await AsyncStorage.setItem(
@@ -307,7 +319,10 @@ const getPositionAddress = async (position: GeoPoint):Promise<LocationAddress> =
     Location.setGoogleApiKey(GOOGLE_MAPS_KEY);
 
     console.log('step 1 : locationToString', position )
-    let data = await Location.reverseGeocodeAsync(position);
+
+    let data = await Location.reverseGeocodeAsync(position, {
+        useGoogleMaps : true
+    });
     
     await axios.post('http://192.168.1.12:3008',{
         body: JSON.stringify({
