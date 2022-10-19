@@ -278,13 +278,13 @@ const getCurrentPosition = async ():Promise<GeoPoint> => {
     } catch (error: any) {
 
 
-        await axios.post('http://192.168.1.12:3008' , {
-            body: JSON.stringify({
-                'message': 'getCurrentPosition::Error',
-                response : JSON.stringify(error)
-            })
-        })
-        console.log('getCurrentPosition::Error', JSON.stringify(error))
+        // await axios.post('http://192.168.1.12:3008' , {
+        //     body: JSON.stringify({
+        //         'message': 'getCurrentPosition::Error',
+        //         response : JSON.stringify(error)
+        //     })
+        // })
+        // console.log('getCurrentPosition::Error', JSON.stringify(error))
 
 
         if (lastTry < MAX_ATTEMPTS) {
@@ -324,19 +324,19 @@ const getPositionAddress = async (position: GeoPoint):Promise<LocationAddress> =
         useGoogleMaps : true
     });
     
-    await axios.post('http://192.168.1.12:3008',{
-        body: JSON.stringify({
-            'service': 'step 1',
-            data: position
-        })
-    });
+    // await axios.post('http://192.168.1.12:3008', {
+    //     body: JSON.stringify({
+    //         'service': 'step 1',
+    //         data: position
+    //     })
+    // });
 
-    await axios.post('http://192.168.1.12:3008',{
-        body: JSON.stringify({
-            'service': 'step 2',
-            data: data
-        })
-    });
+    // await axios.post('http://192.168.1.12:3008',{
+    //     body: JSON.stringify({
+    //         'service': 'step 2',
+    //         data: data
+    //     })
+    // });
     console.log('step 2 : locationToString', data )
     
     const  result = await LocationAddress.fromPrimitives({ ...data[0] });
@@ -344,25 +344,25 @@ const getPositionAddress = async (position: GeoPoint):Promise<LocationAddress> =
     console.log('step 3 : locationToString', result )
 
 
-    await axios.post('http://192.168.1.12:3008',{
-        body: JSON.stringify({
-            'service': 'step 3',
-            data: JSON.stringify(result),
-        })
-    });
+    // await axios.post('http://192.168.1.12:3008',{
+    //     body: JSON.stringify({
+    //         'service': 'step 3',
+    //         data: JSON.stringify(result),
+    //     })
+    // });
 
         return result
 
     } catch (error) {
         console.log(error)
 
-        await axios.post('http://192.168.1.12:3008',{
-            body: JSON.stringify({
-                'service': 'error transformando coordenadas a direcciones',
-                error: JSON.stringify(error),
-                position: position
-            })
-        });
+        // await axios.post('http://192.168.1.12:3008',{
+        //     body: JSON.stringify({
+        //         'service': 'error transformando coordenadas a direcciones',
+        //         error: JSON.stringify(error),
+        //         position: position
+        //     })
+        // });
 
         return new LocationAddress({
             city: '',
@@ -400,50 +400,50 @@ export const UserStatusBarController = React.memo(function UserStatusBarControll
 
 
         try {
-            console.log('= = = Enviando log remoto = = =')
-        await axios.post('http://192.168.1.12:3008' , {
-            body: JSON.stringify({
-                'hook': 'UserStatusBarController',
-                message : '= = = SOLICITANDO : 1 = = =',
-            })
-        })
+            // console.log('= = = Enviando log remoto = = =')
+        // await axios.post('http://192.168.1.12:3008' , {
+        //     body: JSON.stringify({
+        //         'hook': 'UserStatusBarController',
+        //         message : '= = = SOLICITANDO : 1 = = =',
+        //     })
+        // })
 
         console.log('paso 1')
 
         console.log('= = = Enviando log remoto = = =')
-        await axios.post('http://192.168.1.12:3008' , {
-            body: JSON.stringify({
-                'hook': 'getCurrentPosition',
-                message : '= = = SOLICITANDO : 2 = = =',
-            })
-        })
+        // await axios.post('http://192.168.1.12:3008' , {
+        //     body: JSON.stringify({
+        //         'hook': 'getCurrentPosition',
+        //         message : '= = = SOLICITANDO : 2 = = =',
+        //     })
+        // })
         console.log('paso 2')
         const resultGetCurrentPosition = await getCurrentPosition()
 
         
         
         console.log('= = = Enviando log remoto = = =')
-        await axios.post('http://192.168.1.12:3008' , {
-            body: JSON.stringify({
-                'hook': 'getCurrentPosition',
-                message : '= = = RESPUESTA : 3 = = =',
-                response : resultGetCurrentPosition
-            })
-        })
+        // await axios.post('http://192.168.1.12:3008' , {
+        //     body: JSON.stringify({
+        //         'hook': 'getCurrentPosition',
+        //         message : '= = = RESPUESTA : 3 = = =',
+        //         response : resultGetCurrentPosition
+        //     })
+        // })
         console.log('paso 3', resultGetCurrentPosition)
 
         
         
       
 
-        console.log('= = = Enviando log remoto = = =')
-        await axios.post('http://192.168.1.12:3008' , {
-            body: JSON.stringify({
-                'hook': 'getPositionAddress',
-                message : '= = = SOLICITANDO : 4 = = =',
+        // console.log('= = = Enviando log remoto = = =')
+        // await axios.post('http://192.168.1.12:3008' , {
+        //     body: JSON.stringify({
+        //         'hook': 'getPositionAddress',
+        //         message : '= = = SOLICITANDO : 4 = = =',
             
-            })
-        })
+        //     })
+        // })
         console.log('paso 4')
       
         const  positionAddress = await getPositionAddress( resultGetCurrentPosition );
@@ -452,16 +452,16 @@ export const UserStatusBarController = React.memo(function UserStatusBarControll
         console.log('paso 5', positionAddress)
 
         console.log('= = = Enviando log remoto = = =')
-        await axios.post('http://192.168.1.12:3008' , {
-            body: JSON.stringify({
-                'hook': 'getPositionAddress',
-                message : '= = = SOLICITANDO : 5 = = =',
-                response : {
-                        street : positionAddress.street,
-                        shortAddress : positionAddress.shortAddress
-                    }
-            })
-        })
+        // await axios.post('http://192.168.1.12:3008' , {
+        //     body: JSON.stringify({
+        //         'hook': 'getPositionAddress',
+        //         message : '= = = SOLICITANDO : 5 = = =',
+        //         response : {
+        //                 street : positionAddress.street,
+        //                 shortAddress : positionAddress.shortAddress
+        //             }
+        //     })
+        // })
 
       
         setCurrentPosition({

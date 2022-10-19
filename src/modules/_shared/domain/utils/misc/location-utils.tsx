@@ -3,6 +3,8 @@ import axios from 'axios';
 import * as Location from 'expo-location';
 import GeoPoint from '../../models/geo-point';
 import LocationAddress from '../../models/location-address';
+import { GOOGLE_MAPS_KEY } from '@env';
+
 
 const LocationUtils = {
     async requestForegroundPermissionsAsync() {
@@ -28,6 +30,9 @@ const LocationUtils = {
 
         let location = { coords: { latitude: 0, longitude: 0 } };
         try {
+
+            Location.setGoogleApiKey(GOOGLE_MAPS_KEY);
+
             /*  if (status == 'granted' && lastTry < 2) {
                 throw new Error('NOT_GRANTED');
             } */
@@ -68,6 +73,10 @@ const LocationUtils = {
         }
 
         try {
+
+            Location.setGoogleApiKey(GOOGLE_MAPS_KEY);
+
+
             let location = await Location.geocodeAsync(address);
 
             if (location.length == 0) {
@@ -98,6 +107,7 @@ const LocationUtils = {
             throw new Error('NOT_GRANTED');
         }
         
+        Location.setGoogleApiKey(GOOGLE_MAPS_KEY);
         
         let data = await Location.reverseGeocodeAsync(position);
 
